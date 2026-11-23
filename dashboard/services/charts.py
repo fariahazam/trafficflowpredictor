@@ -1,12 +1,13 @@
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import pandas as pd
 
 class ChartBuilder:
     GROUPS = {'hour': 'Hour of day', 'day_of_week': 'Day of week',
               'month': 'Month', 'year': 'Year'}
 
-    def build(self, df, group_by='hour', title=''):
+    def build(self, df: pd.DataFrame, group_by: str = 'hour', title: str = '') -> matplotlib.figure.Figure:
         fig, ax = plt.subplots(figsize=(9, 5))
         if df.empty:
             ax.text(0.5, 0.5, 'No data matches these filters',
