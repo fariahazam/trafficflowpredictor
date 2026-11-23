@@ -1,9 +1,8 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import holidays
 
 class TrafficDataLoader:
-    def __init__(self):
+    df = pd.read_csv("Metro_Interstate_Traffic_Volume.csv")
         
     def load(self) -> pd.DataFrame:     
         df = pd.read_csv("Metro_Interstate_Traffic_Volume.csv")
@@ -25,5 +24,5 @@ class TrafficDataLoader:
         agg_dict['weather_description'] = join_unique
         df = df.groupby('date_time').agg(agg_dict).reset_index()
         
-def join_unique(x):
-            return ','.join(sorted(x.dropna().unique()))
+    def get_dataframe(self) -> pd.DataFrame:
+        return df
