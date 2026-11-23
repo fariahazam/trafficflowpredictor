@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>I-94 West Traffic</title></head>
+<body>
+  <h1>I-94 West Traffic Explorer</h1>
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+  </form>
+  <img src="{% url 'chart_png' %}?{{ request.GET.urlencode }}" alt="Traffic chart">
+</body>
+</html>
