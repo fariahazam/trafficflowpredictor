@@ -34,3 +34,16 @@ class TrafficFilterForm(forms.Form):
     group_by = forms.ChoiceField(
         choices=[('hour', 'Hour'), ('day_of_week', 'Day of week'),
                  ('month', 'Month'), ('year', 'Year')])
+    
+class PredictionForm(forms.Form):
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    hour = forms.ChoiceField(
+        choices=[(h, f"{(h % 12) or 12} {'AM' if h < 12 else 'PM'}") for h in range(24)])
+    weather = forms.ChoiceField(
+        choices=[(w, w) for w in ['Clear', 'Clouds', 'Rain', 'Snow', 'Mist',
+                                  'Fog', 'Drizzle', 'Thunderstorm']])
+    temp_f = forms.FloatField(label='Temperature (℉)', initial=50)
+    rain_1h = forms.FloatField(label='Rain (mm in last hour)', initial=0, min_value=0)
+    snow_1h = forms.FloatField(label='Snow (mm in last hour)', initial=0, min_value=0)
+    clouds_all = forms.IntegerField(label='Cloud cover (%)', initial=0,
+                                    min_value=0, max_value=100)

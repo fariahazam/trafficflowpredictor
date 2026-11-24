@@ -1,12 +1,102 @@
 <!DOCTYPE html>
 <html>
-<head><title>I-94 West Traffic</title></head>
+<head>
+  <title>I-94 West Traffic</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #f4f6f8;
+      color: #222;
+      margin: 0;
+      padding: 24px;
+    }
+    h1 { text-align: center; margin-bottom: 4px; }
+    .nav { text-align: center; margin-bottom: 20px; }
+    .nav a { color: #2563eb; text-decoration: none; }
+
+    form { max-width: 1100px; margin: 0 auto; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #dde1e6;
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .card h3 { margin: 0 0 10px; font-size: 1rem; }
+    .card label { display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+    .card ul, .card div > div { list-style: none; margin: 0; padding: 0; }
+    .scroll { max-height: 260px; overflow-y: auto; }
+
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-size: 0.9rem; margin-bottom: 3px; }
+    .field input, .field select { width: 100%; box-sizing: border-box; padding: 6px; }
+
+    .actions { text-align: center; margin: 20px 0; }
+    button {
+      background: #2563eb; color: #fff; border: 0; border-radius: 8px;
+      padding: 10px 28px; font-size: 1rem; cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+
+    .chart { text-align: center; }
+    .chart img {
+      max-width: 100%; background: #fff; border-radius: 10px;
+      border: 1px solid #dde1e6; padding: 8px;
+    }
+  </style>
+</head>
 <body>
   <h1>I-94 West Traffic Explorer</h1>
+  <p class="nav"><a href="{% url 'predict' %}">Predict traffic</a></p>
+
   <form method="get">
-    {{ form.as_p }}
-    <button type="submit">Update</button>
+    <div class="grid">
+
+      <div class="card">
+        <h3>View</h3>
+        <div class="field">{{ form.day_type.label_tag }} {{ form.day_type }}</div>
+        <div class="field">{{ form.group_by.label_tag }} {{ form.group_by }}</div>
+      </div>
+
+      <div class="card">
+        <h3>Weather</h3>
+        {{ form.weather }}
+      </div>
+
+      <div class="card">
+        <h3>Temperature</h3>
+        <div class="field">{{ form.temp_min_f.label_tag }} {{ form.temp_min_f }}</div>
+        <div class="field">{{ form.temp_max_f.label_tag }} {{ form.temp_max_f }}</div>
+      </div>
+
+      <div class="card">
+        <h3>Holidays</h3>
+        <div class="scroll">{{ form.holidays }}</div>
+      </div>
+
+      <div class="card">
+        <h3>Years</h3>
+        {{ form.years }}
+      </div>
+
+      <div class="card">
+        <h3>Months</h3>
+        {{ form.months }}
+      </div>
+
+    </div>
+
+    <div class="actions"><button type="submit">Update</button></div>
   </form>
-  <img src="{% url 'chart_png' %}?{{ request.GET.urlencode }}" alt="Traffic chart">
+
+  <div class="chart">
+    <img src="{% url 'chart_png' %}?{{ request.GET.urlencode }}" alt="Traffic chart">
+  </div>
 </body>
 </html>

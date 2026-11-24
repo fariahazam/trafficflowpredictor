@@ -10,7 +10,7 @@ class TrafficFilter:
     weather: list = field(default_factory=list)   # e.g. ['Rain', 'Snow']
     temp_min_f: float | None = None
     temp_max_f: float | None = None
-    holiday_mode: str = field(default_factory=list)
+    holidays: list = field(default_factory=list)
     years: list = field(default_factory=list)
     months: list = field(default_factory=list)
 
