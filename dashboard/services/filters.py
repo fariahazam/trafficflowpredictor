@@ -6,15 +6,17 @@ ALL_HOLIDAYS = '__all__'
 
 @dataclass
 class TrafficFilter:
+    """Holds the user's filter choices and applies them to the traffic DataFrame"""
     day_type: str = 'both'            # 'weekday' | 'weekend' | 'both'
-    weather: list = field(default_factory=list)   # e.g. ['Rain', 'Snow']
+    weather: list[str] = field(default_factory=list)   # e.g. ['Rain', 'Snow']
     temp_min_f: float | None = None
     temp_max_f: float | None = None
-    holidays: list = field(default_factory=list)
-    years: list = field(default_factory=list)
-    months: list = field(default_factory=list)
+    holidays: list[str] = field(default_factory=list)
+    years: list[int] = field(default_factory=list)
+    months: list[int] = field(default_factory=list)
 
     def apply(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Return only the rows matching every chosen filter"""
         if self.day_type == 'weekend':
             df = df[df['is_weekend']]
         elif self.day_type == 'weekday':

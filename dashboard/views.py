@@ -1,21 +1,22 @@
+from io import BytesIO
 from datetime import datetime, time
+import matplotlib.pyplot as plt
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 from .forms import TrafficFilterForm, PredictionForm
 from .services.model import TrafficPredictor
-from io import BytesIO
-import matplotlib.pyplot as plt
-from django.http import HttpResponse
-from django.shortcuts import render
-from .forms import TrafficFilterForm
 from .services.data_loader import TrafficDataLoader
 from .services.filters import TrafficFilter
 from .services.charts import ChartBuilder
 
 
-def index(request):
+def index(request: HttpRequest) -> HttpResponse:
+    """Render the traffic explorer page with the filter form"""
     form = TrafficFilterForm(request.GET or None)
     return render(request, 'dashboard/index.html', {'form': form})
 
-def chart_png(request):
+def chart_png(request: HttpRequest) -> HttpResponse:
+    """Returns a line chart of average traffic volume for the filters in the query string"""
     data = request.GET if request.GET else {'day_type': 'both', 'group_by': 'hour'}
     form = TrafficFilterForm(data)
     df = TrafficDataLoader().get_data()
@@ -33,10 +34,11 @@ def chart_png(request):
         fig = ChartBuilder().build(df.iloc[0:0])
     buf = BytesIO()
     fig.savefig(buf, format='png', dpi=100)
-    plt.close(fig)                       # prevents memory leaks
+    plt.close(fig)
     return HttpResponse(buf.getvalue(), content_type='image/png')
 
-def predict(request):
+def predict(request: HttpRequest) -> HttpResponse:
+    """Render the prediction page and show the model's traffic estimate for given conditions"""
     form = PredictionForm(request.GET or None)
     result, error = None, None
     if form.is_valid():

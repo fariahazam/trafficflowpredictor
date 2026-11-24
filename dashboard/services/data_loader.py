@@ -2,13 +2,14 @@ import pandas as pd
 import holidays
 
 class TrafficDataLoader:
+    """Loads CSV file into pandas dataframe"""
     df: pd.DataFrame | None = None
-    
-    def load(self) -> pd.DataFrame:     
+    def load(self) -> pd.DataFrame:
+        """Cleans up data and adds new fields to the dataset"""
         df = pd.read_csv("Metro_Interstate_Traffic_Volume.csv")
         df['date_time'] = pd.to_datetime(df['date_time'], format='%d-%m-%Y %H:%M')
         years = range(df['date_time'].dt.year.min(), df['date_time'].dt.year.max() + 1)
-        us_holidays = holidays.US(years=years)
+        us_holidays = holidays.US(years=years)  # type: ignore[attr-defined]
 
         df['holiday'] = (
             df['date_time'].dt.date
@@ -22,7 +23,6 @@ class TrafficDataLoader:
         df['hour'] = df['date_time'].dt.hour
         df['day_of_week'] = df['date_time'].dt.dayofweek
         df['is_weekend'] = df['day_of_week'] > 4
-        
         df['temp'] = df['temp'].where(df['temp'] != 0)
         df['temp_c'] = (df['temp'] - 273.15).round(2)
         df['temp_f'] = (df['temp_c'] * 1.8 + 32).round(2)
@@ -34,9 +34,9 @@ class TrafficDataLoader:
         agg_dict['weather_description'] = join_unique
         df = df.groupby('date_time').agg(agg_dict).reset_index()
         return df
-        
     @classmethod
     def get_data(cls) -> pd.DataFrame:
+        """Returns dataframe"""
         if cls.df is None:
             cls.df = cls().load()
         return cls.df
