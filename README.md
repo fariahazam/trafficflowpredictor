@@ -16,8 +16,7 @@ A Django web app for exploring hourly traffic volume on I-94 West (2012-2018) an
 
 - Pick a date, hour, and assumed conditions (weather, temperature, rain, snow, cloud cover)
 - Returns the predicted traffic volume in vehicles per hour
-- Weekday, month, weekend, and US holiday features are computed from the date 
-- Weather is an input you supply
+- Weekday, month, weekend, and US holiday features are computed from the date
 
 **Tech Stack:**
 
