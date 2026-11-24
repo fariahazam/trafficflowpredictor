@@ -24,8 +24,7 @@ class TrafficDataLoader:
         df['day_of_week'] = df['date_time'].dt.dayofweek
         df['is_weekend'] = df['day_of_week'] > 4
         df['temp'] = df['temp'].where(df['temp'] != 0)
-        df['temp_c'] = (df['temp'] - 273.15).round(2)
-        df['temp_f'] = (df['temp_c'] * 1.8 + 32).round(2)
+        df['temp_f'] = ((df['temp'] -273.15) * 1.8 + 32).round(2)
         df = df.drop(columns=['temp'])
 
         join_unique = lambda x: ','.join(sorted(x.dropna().unique()))
