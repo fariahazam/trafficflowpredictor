@@ -3,7 +3,7 @@ A Django web app for exploring hourly traffic volume on I-94 West (2012-2018) an
 
 **Features:**
 
-**Traffic explorer** (/)
+**Traffic explorer**
 
 - Filter by weekdays, weekends, or both
 - Filter by weather condition (Clear, Clouds, Rain, Snow, Mist, Fog, Drizzle, Thunderstorm)
@@ -12,7 +12,7 @@ A Django web app for exploring hourly traffic volume on I-94 West (2012-2018) an
 - Filter by year and month
 - Group the chart by hour of day, day of week, month, or year, with readable axis labels (for example 4 PM, Mon, Jan)
 
-**Traffic Prediction** (/predict/)
+**Traffic Prediction**
 
 - Pick a date, hour, and assumed conditions (weather, temperature, rain, snow, cloud cover)
 - Returns the predicted traffic volume in vehicles per hour
